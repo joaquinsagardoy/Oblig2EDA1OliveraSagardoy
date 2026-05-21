@@ -49,7 +49,7 @@ public class Ejercicio5 {
             }
         }
 
-          if (esBipartito) {
+        if (esBipartito) {
             System.out.println("SI");
         } else {
             System.out.println("NO");
@@ -63,8 +63,8 @@ public class Ejercicio5 {
         cola.add(nodoInicio);
         color[nodoInicio] = 0; // Equipo A
 
-        while (!cola.isEmpty()) {
-            int u = cola.poll(); // sacar el siguiente nodo a procesar
+        while (!esVacia(cola)) {
+            int u = desencolar(cola); // sacar el siguiente nodo a procesar
 
             for (int v : grafo.get(u)) { // recorrer incompatibles de u
                 if (color[v] == -1) {
@@ -80,5 +80,13 @@ public class Ejercicio5 {
         }
 
         return true; // componente coloreada sin conflictos
+    }
+
+    static boolean esVacia(Queue<Integer> cola) {
+        return cola.isEmpty();
+    }
+
+    static int desencolar(Queue<Integer> cola) {
+        return cola.poll();
     }
 }

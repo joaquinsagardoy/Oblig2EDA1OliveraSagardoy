@@ -1,8 +1,5 @@
 import java.util.Scanner;
 
-public class Ejercicio2 {  
-    import java.util.Scanner;
-
 public class Ejercicio2 {
 
     // Tamaño de la tabla (primo grande para menos colisiones)
@@ -74,32 +71,23 @@ public class Ejercicio2 {
             }
         }
 
-        // Buscar el puntaje máximo FINAL entre todos
-        String ganador     = null;
-        int maxFinal = Integer.MIN_VALUE;
-        int    mejorRonda  = Integer.MAX_VALUE;
+        String ganador    = null;
+        int    maxFinal   = Integer.MIN_VALUE;
+        int    mejorRonda = Integer.MAX_VALUE;
         for (int i = 0; i < TABLE_SIZE; i++) {
-            if (keys[i] != null && score[i] >= maxFinal) {
-                if (keys[i] != null && score[i] > maxFinal) {
-                maxFinal = score[i];
-                } else {
-                    if (firstRound[i] < mejorRonda) {
+            if (keys[i] != null) {
+                if (score[i] > maxFinal) {
+                    maxFinal   = score[i];
+                    ganador    = keys[i];
+                    mejorRonda = firstRound[i];
+                } else if (score[i] == maxFinal && firstRound[i] < mejorRonda) {
                     mejorRonda = firstRound[i];
                     ganador    = keys[i];
-                    } 
-                }    
+                }
             }
         }
 
-        // Entre los que tienen ese puntaje final, buscar
-        // quien alcanzó ese puntaje máximo final primero
-
         System.out.println(ganador);
         sc.close();
-    }
-}
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        // TODO 
     }
 }

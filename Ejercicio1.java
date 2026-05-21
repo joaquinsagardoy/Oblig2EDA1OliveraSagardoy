@@ -1,7 +1,4 @@
 import java.util.Scanner;
-
-public class Ejercicio1 {  
-    import java.util.Scanner;
 import java.util.HashMap;
 
 public class Ejercicio1 {
@@ -29,10 +26,5 @@ public class Ejercicio1 {
 
         System.out.println(extras);
         sc.close();
-    }
-}
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        // TODO 
     }
 }
