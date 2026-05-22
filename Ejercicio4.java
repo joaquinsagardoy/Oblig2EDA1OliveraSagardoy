@@ -2,15 +2,23 @@ import java.util.*;
 
 public class Ejercicio4 {
 
-    static String[] claves;
-    static int[]    valores;
-    static int      tamano;
-    static int      cantidad;
+    static class Entrada {
+        String nombre;
+        int    indice;
+
+        Entrada(String nombre, int indice) {
+            this.nombre = nombre;
+            this.indice = indice;
+        }
+    }
+
+    static Entrada[] tabla;
+    static int       tamano;
+    static int       cantidad;
 
     static void iniciarTabla(int capacidad) {
         tamano   = capacidad * 2;
-        claves   = new String[tamano];
-        valores  = new int[tamano];
+        tabla    = new Entrada[tamano];
         cantidad = 0;
     }
 
@@ -24,14 +32,13 @@ public class Ejercicio4 {
 
     static int obtenerOCrear(String nombre) {
         int pos = hash(nombre);
-        while (claves[pos] != null) {
-            if (claves[pos].equals(nombre)) {
-                return valores[pos];
+        while (tabla[pos] != null) {
+            if (tabla[pos].nombre.equals(nombre)) {
+                return tabla[pos].indice;
             }
             pos = (pos + 1) % tamano;
         }
-        claves[pos]  = nombre;
-        valores[pos] = cantidad;
+        tabla[pos] = new Entrada(nombre, cantidad);
         return cantidad++;
     }
 
@@ -64,11 +71,7 @@ public class Ejercicio4 {
             }
         }
 
-        if (costos[destino] == Integer.MAX_VALUE) {
-            return -1;
-        } else {
-            return costos[destino];
-        }
+        return costos[destino] == Integer.MAX_VALUE ? -1 : costos[destino];
     }
 
     public static void main(String[] args) {
@@ -103,6 +106,5 @@ public class Ejercicio4 {
         int destino = obtenerOCrear(nombreDestino);
 
         System.out.println(dijkstra(adyacentes, origen, destino, cantPlanetas));
-
     }
 }
