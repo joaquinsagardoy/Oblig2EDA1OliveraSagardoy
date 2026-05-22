@@ -2,14 +2,25 @@ import java.util.Scanner;
 
 public class Ejercicio2 {
 
-    static final int TABLE_SIZE = 131071; //primo grande
+    static final int TABLE_SIZE = 131071; // primo grande
 
-    static String[] nombreParticipante = new String[TABLE_SIZE];
-    static int[] puntaje   = new int[TABLE_SIZE];
-    static int[] maxPuntaje= new int[TABLE_SIZE];
-    static int[] rondaDelMax = new int[TABLE_SIZE]; //ronda en que alcanza maxPuntaje
+    // Nodo que representa a un participante
+    static class Participante {
+        String nombre;
+        int puntaje;
+        int maxPuntaje;
+        int rondaDelMax;
 
- 
+        Participante(String nombre) {
+            this.nombre     = nombre;
+            this.puntaje    = 0;
+            this.maxPuntaje = 0;
+            this.rondaDelMax = 0;
+        }
+    }
+
+    static Participante[] tabla = new Participante[TABLE_SIZE];
+
     static int hash1(String nombre) {
         long h = 0;
         for (char c : nombre.toCharArray()) {
@@ -26,13 +37,13 @@ public class Ejercicio2 {
         return (int) (h + 1); // +1 para que nunca sea 0
     }
 
-    //devuelve el índice en la tabla
+    // Devuelve el índice en la tabla
     static int getIndex(String nombre) {
         int h1 = hash1(nombre);
         int h2 = hash2(nombre);
         int i  = h1;
 
-        while (nombreParticipante[i] != null && !nombreParticipante[i].equals(nombre)) {
+        while (tabla[i] != null && !tabla[i].nombre.equals(nombre)) {
             i = (i + h2) % TABLE_SIZE;
         }
         return i;
@@ -49,33 +60,32 @@ public class Ejercicio2 {
 
             int index = getIndex(nombre);
 
-            if (nombreParticipante[index] == null) {
-                nombreParticipante[index] = nombre;
-                puntaje[index] = 0;
-                maxPuntaje[index] = 0;
-                rondaDelMax[index] = 0;
+            // Si es nuevo participante, crear el nodo
+            if (tabla[index] == null) {
+                tabla[index] = new Participante(nombre);
             }
 
-            puntaje[index] += puntos;
+            tabla[index].puntaje += puntos;
 
-            if (puntaje[index] > maxPuntaje[index]) {
-                maxPuntaje[index]   = puntaje[index];
-                rondaDelMax[index] = ronda; 
+            if (tabla[index].puntaje > tabla[index].maxPuntaje) {
+                tabla[index].maxPuntaje  = tabla[index].puntaje;
+                tabla[index].rondaDelMax = ronda;
             }
         }
 
-        String ganador = null;
-        int    maxFinal = Integer.MIN_VALUE;
+        String ganador    = null;
+        int    maxFinal   = Integer.MIN_VALUE;
         int    mejorRonda = Integer.MAX_VALUE;
+
         for (int i = 0; i < TABLE_SIZE; i++) {
-            if (nombreParticipante[i] != null) {
-                if (puntaje[i] > maxFinal) {
-                    maxFinal = puntaje[i];
-                    ganador = nombreParticipante[i];
-                    mejorRonda = rondaDelMax[i];
-                } else if (puntaje[i] == maxFinal && rondaDelMax[i] < mejorRonda) {
-                    mejorRonda = rondaDelMax[i];
-                    ganador = nombreParticipante[i];
+            if (tabla[i] != null) {
+                if (tabla[i].puntaje > maxFinal) {
+                    maxFinal   = tabla[i].puntaje;
+                    ganador    = tabla[i].nombre;
+                    mejorRonda = tabla[i].rondaDelMax;
+                } else if (tabla[i].puntaje == maxFinal && tabla[i].rondaDelMax < mejorRonda) {
+                    mejorRonda = tabla[i].rondaDelMax;
+                    ganador    = tabla[i].nombre;
                 }
             }
         }
