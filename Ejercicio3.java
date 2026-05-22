@@ -3,10 +3,10 @@ import java.util.Scanner;
 public class Ejercicio3 {
  
     static class Paciente {
-        int p;      // identificador
-        int t;      // hora de llegada
-        int u;      // urgencia
-        int orden;  // orden de ingreso al sistema
+        int p; 
+        int t;
+        int u; 
+        int orden;
  
         Paciente(int p, int t, int u, int orden) {
             this.p     = p;
@@ -19,13 +19,13 @@ public class Ejercicio3 {
     static Paciente[] heap;
     static int heapSize = 0;
  
-    // Devuelve true si el paciente en i tiene mayor prioridad que el de j
+    //retorna true si el paciente i tiene mayor prioridad que j
     static boolean mayorPrioridad(int i, int j) {
         Paciente a = heap[i];
         Paciente b = heap[j];
-        if (a.u != b.u) return a.u > b.u;           // regla 1: mayor urgencia
-        if (a.t != b.t) return a.t < b.t;           // regla 2: menor hora de llegada
-        return a.orden < b.orden;                    // regla 3: orden de ingreso
+        if (a.u != b.u) return a.u > b.u;
+        if (a.t != b.t) return a.t < b.t;
+        return a.orden < b.orden;
     }
  
     static void swap(int i, int j) {
@@ -38,10 +38,10 @@ public class Ejercicio3 {
         return heapSize == 0;
     }
  
-    // Sube el elemento en la posicion i hasta su lugar correcto
+   
     static void flotar(int i) {
         while (i > 0) {
-            int padre = (i - 1) / 2;
+            int padre = (i - 1)/2;
             if (mayorPrioridad(i, padre)) {
                 swap(i, padre);
                 i = padre;
@@ -51,7 +51,6 @@ public class Ejercicio3 {
         }
     }
  
-    // Baja el elemento en la posicion i hasta su lugar correcto
     static void hundir(int i) {
         while (true) {
             int hijoIzq = 2 * i + 1;
@@ -71,7 +70,6 @@ public class Ejercicio3 {
         heapSize++;
     }
  
-    // Elimina y devuelve el identificador del paciente de mayor prioridad
     static int desencolar() {
         int resultado = heap[0].p;
         heapSize--;
