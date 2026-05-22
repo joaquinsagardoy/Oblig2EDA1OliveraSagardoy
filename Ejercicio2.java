@@ -2,41 +2,37 @@ import java.util.Scanner;
 
 public class Ejercicio2 {
 
-    // Tamaño de la tabla (primo grande para menos colisiones)
-    static final int TABLE_SIZE = 131071; // primo
+    static final int TABLE_SIZE = 131071; //primo grande
 
-    // Cada entrada de la tabla
-    static String[] keys    = new String[TABLE_SIZE];
-    static int[]    score   = new int[TABLE_SIZE];
-    static int[]    maxScore= new int[TABLE_SIZE];
-    static int[]    firstRound = new int[TABLE_SIZE]; // ronda en que alcanzó maxScore
+    static String[] nombreParticipante = new String[TABLE_SIZE];
+    static int[] puntaje   = new int[TABLE_SIZE];
+    static int[] maxPuntaje= new int[TABLE_SIZE];
+    static int[] rondaDelMax = new int[TABLE_SIZE]; //ronda en que alcanza maxPuntaje
 
-    // Hash 1: función principal
-    static int hash1(String name) {
+ 
+    static int hash1(String nombre) {
         long h = 0;
-        for (char c : name.toCharArray()) {
+        for (char c : nombre.toCharArray()) {
             h = (h * 31 + c) % TABLE_SIZE;
         }
         return (int) h;
     }
 
-    // Hash 2: función secundaria para el paso en caso de colisión
-    // Debe ser distinta a hash1 y nunca devolver 0
-    static int hash2(String name) {
+    static int hash2(String nombre) {
         long h = 0;
-        for (char c : name.toCharArray()) {
+        for (char c : nombre.toCharArray()) {
             h = (h * 37 + c) % (TABLE_SIZE - 1);
         }
         return (int) (h + 1); // +1 para que nunca sea 0
     }
 
-    // Buscar o insertar un nombre, devuelve el índice en la tabla
-    static int getIndex(String name) {
-        int h1 = hash1(name);
-        int h2 = hash2(name);
+    //devuelve el índice en la tabla
+    static int getIndex(String nombre) {
+        int h1 = hash1(nombre);
+        int h2 = hash2(nombre);
         int i  = h1;
 
-        while (keys[i] != null && !keys[i].equals(name)) {
+        while (nombreParticipante[i] != null && !nombreParticipante[i].equals(nombre)) {
             i = (i + h2) % TABLE_SIZE;
         }
         return i;
@@ -51,38 +47,35 @@ public class Ejercicio2 {
             String nombre = sc.next();
             int puntos    = sc.nextInt();
 
-            int idx = getIndex(nombre);
+            int index = getIndex(nombre);
 
-            // Si es nuevo participante, inicializarlo
-            if (keys[idx] == null) {
-                keys[idx]       = nombre;
-                score[idx]      = 0;
-                maxScore[idx]   = 0;
-                firstRound[idx] = 0;
+            if (nombreParticipante[index] == null) {
+                nombreParticipante[index] = nombre;
+                puntaje[index] = 0;
+                maxPuntaje[index] = 0;
+                rondaDelMax[index] = 0;
             }
 
-            // Actualizar puntaje
-            score[idx] += puntos;
+            puntaje[index] += puntos;
 
-            // ¿Superó su propio máximo histórico?
-            if (score[idx] > maxScore[idx]) {
-                maxScore[idx]   = score[idx];
-                firstRound[idx] = ronda; // actualizar ronda
+            if (puntaje[index] > maxPuntaje[index]) {
+                maxPuntaje[index]   = puntaje[index];
+                rondaDelMax[index] = ronda; 
             }
         }
 
-        String ganador    = null;
-        int    maxFinal   = Integer.MIN_VALUE;
+        String ganador = null;
+        int    maxFinal = Integer.MIN_VALUE;
         int    mejorRonda = Integer.MAX_VALUE;
         for (int i = 0; i < TABLE_SIZE; i++) {
-            if (keys[i] != null) {
-                if (score[i] > maxFinal) {
-                    maxFinal   = score[i];
-                    ganador    = keys[i];
-                    mejorRonda = firstRound[i];
-                } else if (score[i] == maxFinal && firstRound[i] < mejorRonda) {
-                    mejorRonda = firstRound[i];
-                    ganador    = keys[i];
+            if (nombreParticipante[i] != null) {
+                if (puntaje[i] > maxFinal) {
+                    maxFinal = puntaje[i];
+                    ganador = nombreParticipante[i];
+                    mejorRonda = rondaDelMax[i];
+                } else if (puntaje[i] == maxFinal && rondaDelMax[i] < mejorRonda) {
+                    mejorRonda = rondaDelMax[i];
+                    ganador = nombreParticipante[i];
                 }
             }
         }
