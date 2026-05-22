@@ -15,9 +15,12 @@ public class Ejercicio1 {
         for (int i = 0; i < s.length() - 1; i += 2) {
             char llave  = s.charAt(i);       
             char puerta = s.charAt(i + 1);   
-            llaves.put(llave, llaves.getOrDefault(llave, 0) + 1);
+            if (!llaves.containsKey(llave)) {
+                llaves.put(llave, 0);
+            }
+            llaves.put(llave, llaves.get(llave) + 1);
             char necesaria = Character.toLowerCase(puerta);
-            if (llaves.getOrDefault(necesaria, 0) > 0) {
+            if (llaves.containsKey(necesaria) && llaves.get(necesaria) > 0) {
                 llaves.put(necesaria, llaves.get(necesaria) - 1);
             } else {
                 extras++;
