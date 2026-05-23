@@ -60,7 +60,11 @@ public class Ejercicio5 {
 
             for (int v : grafo.get(u)) { 
                 if (color[v] == -1) {
-                    color[v] = 1 - color[u];
+                    if (color[u] == 0) {
+                         color[v] = 1;
+                    } else {
+                        color[v] = 0;
+                    }
                     cola.add(v);
                 } else if (color[v] == color[u]) {
                     return false;
