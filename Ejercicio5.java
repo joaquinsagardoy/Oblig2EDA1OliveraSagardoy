@@ -7,7 +7,6 @@ public class Ejercicio5 {
 
     static ArrayList<ArrayList<Integer>> grafo;
 
-    //-1 = sin colorear, 0 = equipo a, 1 = Equipo b
     static int[] color;
 
     public static void main(String[] args) {
@@ -53,7 +52,7 @@ public class Ejercicio5 {
     static boolean bfs(int inicio) {
         Queue<Integer> cola = new LinkedList<>();
         cola.add(inicio);
-        color[inicio] = 0; // Equipo A
+        color[inicio] = 0;
 
         while (!esVacia(cola)) {
             int u = desencolar(cola); 

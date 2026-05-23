@@ -4,7 +4,6 @@ public class Ejercicio2 {
 
     static final int TABLE_SIZE = 131071; // primo grande
 
-    // Nodo que representa a un participante
     static class Participante {
         String nombre;
         int puntaje;
@@ -34,11 +33,10 @@ public class Ejercicio2 {
         for (char c : nombre.toCharArray()) {
             h = (h * 37 + c) % (TABLE_SIZE - 1);
         }
-        return (int) (h + 1); // +1 para que nunca sea 0
+        return (int) (h + 1); //para que nunca sea 0
     }
 
-    // Devuelve el índice en la tabla
-    static int getIndex(String nombre) {
+    static int getIndice(String nombre) {
         int h1 = hash1(nombre);
         int h2 = hash2(nombre);
         int i  = h1;
@@ -56,11 +54,10 @@ public class Ejercicio2 {
 
         for (int ronda = 1; ronda <= n; ronda++) {
             String nombre = sc.next();
-            int puntos    = sc.nextInt();
+            int puntos = sc.nextInt();
 
-            int index = getIndex(nombre);
+            int index = getIndice(nombre);
 
-            // Si es nuevo participante, crear el nodo
             if (tabla[index] == null) {
                 tabla[index] = new Participante(nombre);
             }
@@ -73,19 +70,19 @@ public class Ejercicio2 {
             }
         }
 
-        String ganador    = null;
-        int    maxFinal   = Integer.MIN_VALUE;
-        int    mejorRonda = Integer.MAX_VALUE;
+        String ganador = null;
+        int maxFinal = Integer.MIN_VALUE;
+        int mejorRonda = Integer.MAX_VALUE;
 
         for (int i = 0; i < TABLE_SIZE; i++) {
             if (tabla[i] != null) {
                 if (tabla[i].puntaje > maxFinal) {
-                    maxFinal   = tabla[i].puntaje;
-                    ganador    = tabla[i].nombre;
+                    maxFinal = tabla[i].puntaje;
+                    ganador = tabla[i].nombre;
                     mejorRonda = tabla[i].rondaDelMax;
                 } else if (tabla[i].puntaje == maxFinal && tabla[i].rondaDelMax < mejorRonda) {
                     mejorRonda = tabla[i].rondaDelMax;
-                    ganador    = tabla[i].nombre;
+                    ganador = tabla[i].nombre;
                 }
             }
         }

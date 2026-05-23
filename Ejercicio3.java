@@ -9,9 +9,9 @@ public class Ejercicio3 {
         int orden;
  
         Paciente(int p, int t, int u, int orden) {
-            this.p     = p;
-            this.t     = t;
-            this.u     = u;
+            this.p = p;
+            this.t = t;
+            this.u = u;
             this.orden = orden;
         }
     }
@@ -55,7 +55,7 @@ public class Ejercicio3 {
         while (true) {
             int hijoIzq = 2 * i + 1;
             int hijoDer = 2 * i + 2;
-            int mayor   = i;
+            int mayor = i;
             if (hijoIzq < heapSize && mayorPrioridad(hijoIzq, mayor)) mayor = hijoIzq;
             if (hijoDer < heapSize && mayorPrioridad(hijoDer, mayor)) mayor = hijoDer;
             if (mayor == i) break;
